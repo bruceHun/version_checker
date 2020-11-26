@@ -1,3 +1,4 @@
+import subprocess
 from urllib import request, error
 from PyQt5.QtWidgets import QMessageBox, QApplication
 from configparser import ConfigParser
@@ -61,7 +62,8 @@ def load_settings():
 def run_app(_path: str):
     directory = path.dirname(_path)
     chdir(directory)
-    return system(path.basename(_path))
+    process = subprocess.Popen(path.basename(_path), shell=False)
+    return process.wait()
 
 
 if __name__ == "__main__":
@@ -70,4 +72,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     r, l, d, t, p = load_settings()
     check_version(r, l, d, t)
-    print(f"exit with code {run_app(p)}")
+    print(f"exited with code {run_app(p)}")
